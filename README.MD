@@ -1,4 +1,4 @@
-## - This module creates following resources. We are using HA, we are getting first 2 AZ automatically.
+## This module creates following resources. We are using HA, we are getting first 2 AZ automatically.
 
 - VPC
 - Internet Gateway with VPC association
@@ -15,7 +15,7 @@
 - Adding the peering route in default VPC, if user don't provide acceptor VPC explicitly.
 - Adding the peering routes in public, private and database route tables
 
-### - Inputs
+### Inputs
 
 - project_name (Required) your project name
 - environment (Required) which environment you are working in
@@ -38,7 +38,7 @@
 - acceptor_vpc_id (Optional) default value is default VPC ID
 - vpc_peering_tags (Optional) Default value is empty. type is map
 
-### - Outputs
+### Outputs
 
 - vpc_id VPC ID created
 - public_subnet_ids 2 public subnet ID created
