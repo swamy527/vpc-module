@@ -1,12 +1,16 @@
 resource "aws_vpc" "myvpc" {
   cidr_block           = var.cidr_block
   enable_dns_hostnames = "true"
-  tags                 = local.tag
+  tags = {
+    Name = local.Name
+  }
 }
 
 resource "aws_internet_gateway" "mygw" {
   vpc_id = aws_vpc.myvpc.id
-  tags   = local.tag
+  tags = {
+    Name = local.Name
+  }
 }
 
 resource "aws_subnet" "public" {
@@ -15,7 +19,7 @@ resource "aws_subnet" "public" {
   cidr_block        = var.public_cidr[count.index]
   availability_zone = local.available_zones[count.index]
   tags = {
-    Name = "${var.environment}-${var.project}-public"
+    Name = "${local.Name}-public"
   }
 
 }
@@ -26,7 +30,7 @@ resource "aws_subnet" "private" {
   cidr_block        = var.private_cidr[count.index]
   availability_zone = local.available_zones[count.index]
   tags = {
-    Name = "${var.environment}-${var.project}-private"
+    Name = "${local.Name}-private"
   }
 }
 
@@ -36,7 +40,7 @@ resource "aws_subnet" "database" {
   cidr_block        = var.database_cidr[count.index]
   availability_zone = local.available_zones[count.index]
   tags = {
-    Name = "${var.environment}-${var.project}-database"
+    Name = "${local.Name}-databse"
   }
 }
 
