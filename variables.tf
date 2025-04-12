@@ -51,3 +51,8 @@ variable "private_subnet" {
     error_message = "Please give 2 private valid subnet CIDR"
   }
 }
+
+variable "acceptor_vpc_id" {
+  type    = string
+  default = ""
+}
