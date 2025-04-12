@@ -60,26 +60,32 @@ resource "aws_nat_gateway" "roboshop" {
 
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.roboshop.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.roboshop.id
-  }
+}
+
+resource "aws_route" "public" {
+  route_table_id         = aws_route_table.public.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.roboshop.id
 }
 
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.roboshop.id
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.roboshop.id
-  }
 }
+resource "aws_route" "public" {
+  route_table_id         = aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.roboshop.id
+}
+
 
 resource "aws_route_table" "database" {
   vpc_id = aws_vpc.roboshop.id
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.roboshop.id
-  }
+}
+
+resource "aws_route" "public" {
+  route_table_id         = aws_route_table.database.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.roboshop.id
 }
 
 resource "aws_route_table_association" "public" {
