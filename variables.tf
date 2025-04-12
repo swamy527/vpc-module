@@ -30,12 +30,24 @@ variable "gateway" {
 
 variable "public_subnet" {
   type = list(string)
+  validation {
+    condition     = length(var.public_subnet) == 2
+    error_message = "Please give 2 public valid subnet CIDR"
+  }
 }
 
 variable "database_subnet" {
   type = list(string)
+  validation {
+    condition     = length(var.database_subnet) == 2
+    error_message = "Please give 2 database valid subnet CIDR"
+  }
 }
 
 variable "private_subnet" {
   type = list(string)
+  validation {
+    condition     = length(var.private_subnet) == 2
+    error_message = "Please give 2 private valid subnet CIDR"
+  }
 }
