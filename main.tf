@@ -22,7 +22,7 @@ resource "aws_subnet" "public" {
   availability_zone       = data.aws_availability_zones.azs.names[count.index]
   map_public_ip_on_launch = true
   tags = {
-    Name = "public-${data.aws_availability_zones.azs.names[count.index]}"
+    Name = "${local.name}-public-${data.aws_availability_zones.azs.names[count.index]}"
   }
 
 }
@@ -33,7 +33,7 @@ resource "aws_subnet" "private" {
   cidr_block        = var.private_subnet[count.index]
   availability_zone = data.aws_availability_zones.azs.names[count.index]
   tags = {
-    Name = "private-${data.aws_availability_zones.azs.names[count.index]}"
+    Name = "${local.name}-private-${data.aws_availability_zones.azs.names[count.index]}"
   }
 
 }
@@ -44,7 +44,7 @@ resource "aws_subnet" "database" {
   cidr_block        = var.database_subnet[count.index]
   availability_zone = data.aws_availability_zones.azs.names[count.index]
   tags = {
-    Name = "database-${data.aws_availability_zones.azs.names[count.index]}"
+    Name = "${local.name}-database-${data.aws_availability_zones.azs.names[count.index]}"
   }
 }
 
@@ -55,7 +55,10 @@ resource "aws_eip" "roboshop" {
 resource "aws_nat_gateway" "roboshop" {
   allocation_id = aws_eip.roboshop.id
   subnet_id     = aws_subnet.public[0].id
-  depends_on    = [aws_internet_gateway.roboshop]
+  tags = {
+    Name = "${local.name}"
+  }
+  depends_on = [aws_internet_gateway.roboshop]
 }
 
 resource "aws_route_table" "public" {
